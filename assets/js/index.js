@@ -7,8 +7,11 @@ var $dayPlannerEl = $("#dayPlannerContainer");
 dateHeaderElement.text(currentDate);
 console.log(currentDate);
 
-var nowHour24 = moment().format("H");
-var nowHour12 = moment().format("h");
+var hour24 = 13;
+var hour12 = 1;
+
+var hour24 = moment().format("H");
+var hour12 = moment().format("h");
 
 ;
 // this function will create divs based on the hour
@@ -71,7 +74,7 @@ function createBoxes() {
     var $saveButton = $('<i>');
     $saveButton.attr('id', `saveid-${workHour}`);
     $saveButton.attr('save-id', workHour);
-    $saveButton.attr('class', 'far fa-save');
+    $saveButton.attr('class', 'far fa-save saveIcon');
 
     $rowGrid.append($column1);
     $column1.append($saveButton);
@@ -83,16 +86,18 @@ function createBoxes() {
   }
 }
 
-function colorChanger($rowGrid, time){
-    if(time < nowHour24){
-        
+function colorChanger($rowColor, time){
+    if(time < hour24){
+        $rowColor.css('background-color', 'lightgrey')
+    }
+    else if (hour > hour24){
+        $rowColor.css('background-color', 'green')
+    }
+    else {
+        $rowColor.css('background-color', 'red')
     }
 };
 
-if (test) {
-  nowHour24 = 13;
-  nowHour12 = 1;
-}
 
 function savePlans() {
   var savedPlans = JSON.parse(localStorage.getItem("savedPlans"));
@@ -109,5 +114,30 @@ function savePlans() {
   console.log(planArr);
   console.log(savedPlans);
 };
+
+$(document).on('click', 'i', function(event){
+event.preventDefault();
+
+var $index = $(this).attr('save-id');
+
+var inputText = '#input-'+$index;
+var $value = $(inputText).val();
+
+planArr[$index] = $value;
+
+$(`#saveid-${$index}`).removeClass('zoomIn');
+localStorage.setItem('savedPlans', JSON.stringify(planArr));
+});
+
+$(document).on('change', 'input', function(event){
+event.preventDefault();
+
+let i = $(this).attr('time-index');
+
+$(`#saveid-${i}`).addClass('zoomIn');
+})
+
+
+
 savePlans();
 createBoxes();
