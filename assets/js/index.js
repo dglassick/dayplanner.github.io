@@ -110,6 +110,14 @@ function savePlans() {
   console.log(savedPlans);
 }
 
+$(document).on("change", "input", function(event) {
+  event.preventDefault();
+
+  let i = $(this).attr("time-index");
+
+  $(`#saveid-${i}`).addClass("shadowpulse");
+});
+
 $(document).on("click", "i", function(event) {
   event.preventDefault();
 
@@ -120,17 +128,11 @@ $(document).on("click", "i", function(event) {
 
   planArr[$index] = $value;
 
-  $(`#saveid-${$index}`).removeClass("zoomIn");
+  $(`#saveid-${$index}`).removeClass("shadowpulse");
   localStorage.setItem("savedPlans", JSON.stringify(planArr));
 });
 
-$(document).on("change", "input", function(event) {
-  event.preventDefault();
 
-  let i = $(this).attr("time-index");
-
-  $(`#saveid-${i}`).addClass("zoomIn");
-});
 
 savePlans();
 createBoxes();
