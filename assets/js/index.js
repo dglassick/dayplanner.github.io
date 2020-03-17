@@ -104,7 +104,7 @@ function savePlans() {
     planArr = savedPlans;
   } else {
     planArr = new Array(9);
-    planArr[4] = "Lunch time!";
+    planArr[3] = "Lunch time!";
   }
   console.log(planArr);
   console.log(savedPlans);
